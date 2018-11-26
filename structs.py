@@ -65,7 +65,7 @@ class IQData_arr:
 
 
 
-    def getDeltaArr(self,type, chan0, chan1):
+    def getDeltaArr(self,type, chan0, chan1, flg=False):
 
         try:
             arr_chan0_x =  self.getArr(type, chan0, _np=True)
@@ -75,14 +75,19 @@ class IQData_arr:
         except:
             ret = []
 
+
         if type == 'DEG':
+
             for i in range(len(ret)):
                 if ret[i] < 0:
-                    ret[i] = 360 + ret[i]
+                #if :
+                 #   print('b ' + str(ret[i]))
+                    ret[i] = max([abs(int(ret[i]  / 360)), 1]) * 360 + ret[i]
+                   # print('a ' + str(ret[i]))
+                    if ret[i] < 0:
+                        ret[i] = ret[i] + 360
 
-
-
-        #print(ret)
+            print(ret)
 
         return ret
 

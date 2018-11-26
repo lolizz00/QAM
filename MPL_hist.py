@@ -125,12 +125,17 @@ class MPL_Hist(QtWidgets.QWidget):
         self.figure.canvas.draw()
 
     def clear(self):
+
         if self.bars_plots:
             for _bar_plot in  self.bars_plots:
                 _bar_plot.remove()
 
 
+
+
         self.bars_plots = []
+
+        self.figure.canvas.draw()
 
     # ---
 
@@ -221,6 +226,7 @@ class MPL_Hist(QtWidgets.QWidget):
             self.bars_plots.append(_plot)
 
         self.figure.canvas.draw()
+
 
 
     # для работы с ампли туду-туду-туду ой

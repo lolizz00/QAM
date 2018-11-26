@@ -53,6 +53,8 @@ class MW(QtWidgets.QMainWindow, Ui_MainWindow):
         self.showMaximized()
         # -----
 
+        self.inv_x = False
+
         self.initSignals()
 
         self.chan_cnt = 0
@@ -275,6 +277,8 @@ class MW(QtWidgets.QMainWindow, Ui_MainWindow):
 
         flg = False
 
+        if _min < 0:
+            flg = True
 
         if flg:
             self.showErr('Недопустимые значения!')
@@ -283,7 +287,58 @@ class MW(QtWidgets.QMainWindow, Ui_MainWindow):
 
 
         self.diag.setViev([_min, _max])
-        self.hist.setViev([_min - 1, _max + 1])
+
+
+        if _max < 0:
+            for i in range(len(self.hist.hists)):
+                self.hist.hists[i].spines['bottom'].set_visible(True)
+            ax2
+
+        if 0:
+            _min0 = 0
+            _max0 = _min
+
+            _min1 = 360 + _max
+            _max1 = 360
+
+            self.hist.setViev([[_min0, _max0],[_min1, _max1]])
+
+        else:
+            self.hist.setViev([_min, _max])
+
+        """
+       # if _max < 0:
+        #    _max = _max + 360
+
+           # tmp = _max
+           # _max = _min
+           # _min = tmp
+
+
+         #   print(_min, _max)
+
+            
+            if not self.inv_x:
+                for i in range(len(self.hist.hists)):
+                    self.hist.hists[i].invert_xaxis()
+                self.inv_x = True
+            
+
+        else:
+            
+            if self.inv_x:
+                for i in range(len(self.hist.hists)):
+                    self.hist.hists[i].invert_xaxis()
+                self.inv_x = False
+            """
+
+
+
+
+
+
+
+
 
         #self.MPL_hist.rangeHist(_min, _max)
         #self.MPL_diag.rangeDiag(_min, _max)

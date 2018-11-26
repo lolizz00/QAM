@@ -129,6 +129,8 @@ class MPL_Diag(QtWidgets.QWidget):
 
         self.diag_plots = []
 
+        self.figure.canvas.draw()
+
     # установка надписей
     def setLabels(self, title=None, xlabel=None, ylabel=None):
         if title:
