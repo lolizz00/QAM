@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'H:\RF_Test_Tool\QAM\mainwindow.ui'
+# Form implementation generated from reading ui file 'H:\QAM\mainwindow.ui'
 #
 # Created by: PyQt5 UI code generator 5.11.2
 #
@@ -131,6 +131,7 @@ class Ui_MainWindow(object):
         self.vieMaxLineEdit.setObjectName("vieMaxLineEdit")
         self.horizontalLayout_6.addWidget(self.vieMaxLineEdit)
         self.viePushButton = QtWidgets.QPushButton(self.layoutWidget2)
+        self.viePushButton.setEnabled(False)
         self.viePushButton.setObjectName("viePushButton")
         self.horizontalLayout_6.addWidget(self.viePushButton)
         self.clearPushButton = QtWidgets.QPushButton(self.page_4)
@@ -155,9 +156,6 @@ class Ui_MainWindow(object):
         self.setColorPushButton = QtWidgets.QPushButton(self.layoutWidget3)
         self.setColorPushButton.setObjectName("setColorPushButton")
         self.horizontalLayout_9.addWidget(self.setColorPushButton)
-        self.zoomPushButton = QtWidgets.QPushButton(self.page_4)
-        self.zoomPushButton.setGeometry(QtCore.QRect(180, 110, 75, 23))
-        self.zoomPushButton.setObjectName("zoomPushButton")
         self.toolBox.addItem(self.page_4, "")
         self.page_5 = QtWidgets.QWidget()
         self.page_5.setGeometry(QtCore.QRect(0, 0, 350, 169))
@@ -307,6 +305,9 @@ class Ui_MainWindow(object):
         self.logTextEdit.setGeometry(QtCore.QRect(10, 20, 331, 201))
         self.logTextEdit.setReadOnly(True)
         self.logTextEdit.setObjectName("logTextEdit")
+        self.zoomPushButton = QtWidgets.QPushButton(self.groupBox)
+        self.zoomPushButton.setGeometry(QtCore.QRect(90, 70, 75, 23))
+        self.zoomPushButton.setObjectName("zoomPushButton")
         self.gridLayout.addWidget(self.groupBox_2, 0, 2, 1, 1)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
@@ -346,7 +347,6 @@ class Ui_MainWindow(object):
         self.colorComboBox.setItemText(1, _translate("MainWindow", "nipy_spectral"))
         self.colorComboBox.setItemText(2, _translate("MainWindow", "hsv"))
         self.setColorPushButton.setText(_translate("MainWindow", "Применить"))
-        self.zoomPushButton.setText(_translate("MainWindow", "zoom"))
         self.toolBox.setItemText(self.toolBox.indexOf(self.page_4), _translate("MainWindow", "Графики"))
         self.TR_deltaCheckBox.setText(_translate("MainWindow", "Отображение разницы фаз на каналах"))
         self.label_9.setText(_translate("MainWindow", "Канал отсчета:"))
@@ -373,6 +373,7 @@ class Ui_MainWindow(object):
         self.TR_stopFilePushButton.setText(_translate("MainWindow", "Стоп"))
         self.readerToolBox.setItemText(self.readerToolBox.indexOf(self.page_2), _translate("MainWindow", "Поток"))
         self.groupBox.setTitle(_translate("MainWindow", "Лог"))
+        self.zoomPushButton.setText(_translate("MainWindow", "zoom"))
 
 from MPL_diag import MPL_Diag
 from MPL_hist import MPL_Hist

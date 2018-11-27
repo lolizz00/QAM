@@ -332,6 +332,9 @@
            </item>
            <item>
             <widget class="QPushButton" name="viePushButton">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
              <property name="text">
               <string>Применить</string>
              </property>
@@ -402,19 +405,6 @@
             </widget>
            </item>
           </layout>
-         </widget>
-         <widget class="QPushButton" name="zoomPushButton">
-          <property name="geometry">
-           <rect>
-            <x>180</x>
-            <y>110</y>
-            <width>75</width>
-            <height>23</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>zoom</string>
-          </property>
          </widget>
         </widget>
         <widget class="QWidget" name="page_5">
@@ -860,6 +850,19 @@
          </property>
          <property name="readOnly">
           <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="zoomPushButton">
+         <property name="geometry">
+          <rect>
+           <x>90</x>
+           <y>70</y>
+           <width>75</width>
+           <height>23</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>zoom</string>
          </property>
         </widget>
        </widget>

@@ -17,12 +17,17 @@ from PyQt5.QtWidgets import *
 from matplotlib.ticker import PercentFormatter
 import math
 from matplotlib.ticker import MaxNLocator
-
-
-
+from PyQt5.QtCore import (Qt, pyqtSignal)
+from structs import ZoomData
+from fractional_polar_axes import MyPolarAxes
 # -----
 
 class MPL_Diag(QtWidgets.QWidget):
+
+    zoom_data_signal = pyqtSignal(list)
+    zoom_show_signal = pyqtSignal(bool, float, float)
+
+    zoom_zoom_signal = pyqtSignal(bool)
 
     # временное решение что бы не париться с палитрой цветов, ы
     colors_chan = {
@@ -35,6 +40,27 @@ class MPL_Diag(QtWidgets.QWidget):
         6: 'b'
 
     }
+
+    def mouseWheEvent(self, event):
+        #print('WHE EVENT')
+
+        return
+
+        if event.button == 'up':
+            self.zoom_zoom_signal.emit(True)
+        elif event.button == 'down':
+            self.zoom_zoom_signal.emit(False)
+
+    def mousePreEvent(self, event):
+
+
+        if event.button == 1: # левая
+            self.zoom_show_signal.emit(True, event.xdata, event.ydata)
+        elif event.button == 3:
+            self.zoom_show_signal.emit(False)
+
+        #self.zoom_cent_signal.emit(, event.ydata)
+
 
     def setMode(self, _mode):
         self.mode = _mode
@@ -51,6 +77,9 @@ class MPL_Diag(QtWidgets.QWidget):
 
     def __init__(self, parent=None):
         super(MPL_Diag, self).__init__(parent)
+
+        self.inv_flg = False
+
 
         self.wid = None
 
@@ -88,7 +117,13 @@ class MPL_Diag(QtWidgets.QWidget):
         self.init()
         self.figure.canvas.draw()
 
+        self.figure.canvas.mpl_connect('button_press_event', self.mousePreEvent)
+        self.figure.canvas.mpl_connect('scroll_event', self.mouseWheEvent)
+        # --- творим херню
 
+        #self.diag2 = MyPolarAxes(self.figure)
+
+#        self.mouse
 
 
 
@@ -180,17 +215,39 @@ class MPL_Diag(QtWidgets.QWidget):
 
     def setViev(self, lim):
 
-        lim[0] = np.radians(lim[0])
-        lim[1] = np.radians(lim[1])
+        _min = np.radians(lim[0])
+        _max = np.radians(lim[1])
 
-        self.x_lim = lim
-
-        self.diag.set_xlim(self.x_lim)
+        self.diag.set_thetalim(_min, _max)
 
         self.figure.canvas.draw()
 
 
+        #if _min > _max:
+           # _tick0 =
+
+
+        # ---
+
+        #_min = np.radians(lim[0])
+        #_max = np.radians(lim[1])
+
+       # if _min > _max:
+
+
+        #self.x_ticks = x_ticks
+
+       # print(np.degrees(self.x_ticks))
+
+       # self.diag.set_xticks(self.x_ticks)
+       # self.diag.set_thetalim(self.x_ticks[0], self.x_ticks[-1])
+       # self.figure.canvas.draw()
+
+
     def plotDiag(self, data):
+
+
+        lst_sig = []
 
         self.clear()
 
@@ -212,6 +269,13 @@ class MPL_Diag(QtWidgets.QWidget):
                 _plot = self.diag.scatter(x, y, c=self.colors, s=self.mrk_size)  # отсроили график
 
                 self.diag_plots.append(_plot)
+
+                lst_sig.append(ZoomData())
+                lst_sig[-1].x = x
+                lst_sig[-1].y = y
+                lst_sig[-1].colors = self.colors
+
+
                 # добавлили график
         elif self.mode == 2:
 
@@ -236,6 +300,12 @@ class MPL_Diag(QtWidgets.QWidget):
 
                     _plot = self.diag.scatter(x, y, c=self.colors, s=self.mrk_size)
                     self.diag_plots.append(_plot)
+
+                    lst_sig.append(ZoomData())
+                    lst_sig[-1].x = x
+                    lst_sig[-1].y = y
+                    lst_sig[-1].colors = self.colors
+
         elif self.mode == 3:
                 x = data.getArr('RAD', self.amp_chan_n, _np=True)  # получаем  данные
                 y = data.getArr('AMP', self.amp_chan_n, _np=True)  # получаем  данные
@@ -245,10 +315,18 @@ class MPL_Diag(QtWidgets.QWidget):
 
                 self.diag_plots.append(_plot)
 
+                lst_sig.append(ZoomData())
+                lst_sig[-1].x = x
+                lst_sig[-1].y = y
+                lst_sig[-1].colors = colors
+
                 self.diag.set_ylim(np.min(y) - 100, np.max(y) + 100)
 
 
         self.figure.canvas.draw()
+
+
+        self.zoom_data_signal.emit(lst_sig)
 
         # для работы с ампли туду-туду-туду ой
     def setChan(self, n):

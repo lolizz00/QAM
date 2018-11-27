@@ -2,12 +2,19 @@
 import numpy as np
 from ctypes import *
 
+class ZoomData:
+    def __init__(self):
+        self.x = None
+        self.y = None
+        self.colors = None
+
 # рутина в отдельный класс
 class IQData_arr:
     def __init__(self, _size=50):
         self.points = []
         self.size = _size
         self.offset = []
+
 
 
         self.updateLen()
@@ -87,7 +94,7 @@ class IQData_arr:
                     if ret[i] < 0:
                         ret[i] = ret[i] + 360
 
-            print(ret)
+            #print(ret)
 
         return ret
 

@@ -36,6 +36,9 @@ from ThreadReader import ThreadReader
 from ZoomWid import ZoomWid
 # ----- класс формы
 
+
+
+
 class MW(QtWidgets.QMainWindow, Ui_MainWindow):
 
     # -----
@@ -105,6 +108,12 @@ class MW(QtWidgets.QMainWindow, Ui_MainWindow):
 
         self.zoom_wid = ZoomWid()
         self.zoom_wid.hide()
+        self.diag.zoom_data_signal.connect(self.zoom_wid.dataSlot)
+        self.diag.zoom_show_signal.connect(self.zoom_wid.showSlot)
+#        self.diag.zoom_cent_signal.connect(self.zoom_wid.setCenter)
+   #     self.diag.zoom_zoom_signal.connect(self.zoom_wid.zoomSlot)
+
+
 
     def ishChanComboBoxStateChanged(self):
 
@@ -277,34 +286,28 @@ class MW(QtWidgets.QMainWindow, Ui_MainWindow):
 
         flg = False
 
+        if _max < 0:
+            flg = True
+
         if _min < 0:
             flg = True
 
+       # if _min > _max:
+        #    self.showErr('Недопустимые значения!')
+         #   return
+
         if flg:
-            self.showErr('Недопустимые значения!')
-            return
+            if 1:
+                self.showErr('Недопустимые значения!')
+                return
 
-
+       # print('BEF:\t' + str(_min) + ' ' + str(_max))
 
         self.diag.setViev([_min, _max])
 
 
-        if _max < 0:
-            for i in range(len(self.hist.hists)):
-                self.hist.hists[i].spines['bottom'].set_visible(True)
-            ax2
 
-        if 0:
-            _min0 = 0
-            _max0 = _min
-
-            _min1 = 360 + _max
-            _max1 = 360
-
-            self.hist.setViev([[_min0, _max0],[_min1, _max1]])
-
-        else:
-            self.hist.setViev([_min, _max])
+        self.hist.setViev([_min - 5, _max + 5])
 
         """
        # if _max < 0:
@@ -351,6 +354,9 @@ class MW(QtWidgets.QMainWindow, Ui_MainWindow):
 
 
     def zoomPushButtonClicked(self):
+
+        return
+
         if self.zoom_wid.isHidden():
             self.zoom_wid.show()
         else:
