@@ -1,0 +1,11 @@
+﻿  dllmain.cpp
+  pshow_get.cpp
+h:\qam\pshow_get\pshow_get.cpp(119): warning C4018: <: несоответствие типов со знаком и без знака
+h:\qam\pshow_get\pshow_get.cpp(206): warning C4244: =: преобразование "volatile uint64_t" в "uint16_t", возможна потеря данных
+h:\qam\pshow_get\pshow_get.cpp(251): warning C4018: <: несоответствие типов со знаком и без знака
+  stdafx.cpp
+  Создание кода...
+pshow.def(2): warning LNK4017: оператор pshow_get не поддерживается на конечной платформе; пропущен
+pshow.def(2): warning LNK4017: оператор pshow_set не поддерживается на конечной платформе; пропущен
+     Создается библиотека H:\QAM\pshow_get\x64\Debug\pshow_get.lib и объект H:\QAM\pshow_get\x64\Debug\pshow_get.exp
+  pshow_get.vcxproj -> H:\QAM\pshow_get\x64\Debug\pshow_get.dll

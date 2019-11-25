@@ -1,5 +1,7 @@
 # ---- обработка исключений
 
+import platform
+
 from structs import IQData_arr
 
 def log_uncaught_exceptions(ex_cls, ex, tb):
@@ -124,6 +126,7 @@ class MW(QtWidgets.QMainWindow, Ui_MainWindow):
             chan_n = int(self.ampChanComboBox.currentText())
             self.hist.setChan(chan_n)
             self.diag.setChan(chan_n)
+
     def updateMode(self):
 
         amp_flg = self.FR_ampCheckBox.isChecked()
@@ -179,15 +182,8 @@ class MW(QtWidgets.QMainWindow, Ui_MainWindow):
 
         self.viePushButtonClicked()
 
-
-
-
-
-
     def TR_offsetCheckBoxStateChanged(self):
         self.tr.setOffsFlag(self.TR_offsetCheckBox.isChecked())
-
-
 
     def initSignals(self):
 
@@ -215,7 +211,6 @@ class MW(QtWidgets.QMainWindow, Ui_MainWindow):
         self.hist.setCmap(self.colorComboBox.currentText())
 
         self.logSlot('Успешно.')
-
 
     def setLabels(self, mode=1):
         if mode  == 1:
@@ -247,10 +242,6 @@ class MW(QtWidgets.QMainWindow, Ui_MainWindow):
 
             self.hist.setAllLabels('Канал #' + str(chan_n), 'Коорд. точек', 'Кол-во точек')
 
-
-
-
-
     def ampChanComboBoxCurrentIndexChanged(self):
         chan_n = int(self.ampChanComboBox.currentText())
 
@@ -275,7 +266,6 @@ class MW(QtWidgets.QMainWindow, Ui_MainWindow):
         self.logSlot('Успешно.')
 
     def viePushButtonClicked(self):
-
 
         try:
             _min = int(self.vieMinLineEdit.text())
@@ -352,7 +342,6 @@ class MW(QtWidgets.QMainWindow, Ui_MainWindow):
     def readFilePushButtonClicked(self):
         self.readFileLineEdit.setText(QFileDialog.getOpenFileName()[0])
 
-
     def zoomPushButtonClicked(self):
 
         return
@@ -366,8 +355,11 @@ class MW(QtWidgets.QMainWindow, Ui_MainWindow):
 
         _tout = int(self.updateSlider.value())
         _endian = self.endianComboBox.currentText()
-        _dll = 'pshow_get.dll'
 
+        if platform.architecture()[0] == '64bit':
+            _dll = 'pshow_get_x64.dll'
+        else:
+            _dll = 'pshow_get_x32.dll'
 
         self.logSlot('Запуск...')
 
@@ -385,8 +377,6 @@ class MW(QtWidgets.QMainWindow, Ui_MainWindow):
             return
 
         self.tr.start()
-
-
 
     def RD_startFilePushButtonClicked(self):
 
@@ -414,7 +404,6 @@ class MW(QtWidgets.QMainWindow, Ui_MainWindow):
     def showErr(self, text):
         QMessageBox.critical(self, 'Ошибка!', text)
 
-
     def logSlot(self, text):
         if self.logTextEdit.toPlainText() == '':
             self.logTextEdit.setText(text)
@@ -434,7 +423,6 @@ class MW(QtWidgets.QMainWindow, Ui_MainWindow):
         self.diag.plotDiag(self.points_arr)
         self.hist.plotHist(self.points_arr)
         self.plot_flg = False
-
 
     def clearSlot(self):
         self.points_arr.clearPoints()
